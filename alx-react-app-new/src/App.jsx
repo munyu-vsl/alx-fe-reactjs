@@ -1,19 +1,17 @@
+import React from 'react';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
-import Footer from './components/Footer';
 import UserProfile from './components/UserProfile';
-import WelcomeMessage from './components/WelcomeMessage';
+import Footer from './components/Footer';
+import Counter from './components/Counter'; // Import Counter
+
 function App() {
   return (
     <div>
-        <WelcomeMessage />
       <Header />
       <MainContent />
-      <UserProfile 
-        name="Alice" 
-        age="25" 
-        bio="Loves hiking and photography" 
-      />
+      <UserProfile name="Jane Doe" age={28} bio="Avid traveler and food lover." />
+      <Counter /> {/* Render Counter */}
       <Footer />
     </div>
   );
