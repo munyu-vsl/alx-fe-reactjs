@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchAdvancedUsers } from '../services/githubService';
+import { fetchAdvancedUsers, fetchUserData } from '../services/githubService';
 
 const Search = () => {
   const [form, setForm] = useState({ username: '', location: '', minRepos: '' });
@@ -21,7 +21,20 @@ const Search = () => {
 
     try {
       const results = await fetchAdvancedUsers(form, nextPage);
-      setUsers(results.items);
+
+      // Enrich each user with full details
+      const enrichedUsers = await Promise.all(
+        results.items.map(async (user) => {
+          try {
+            const fullData = await fetchUserData(user.login);
+            return { ...user, ...fullData };
+          } catch {
+            return user; // fallback to minimal data
+          }
+        })
+      );
+
+      setUsers(enrichedUsers);
     } catch (err) {
       setError('Looks like we cant find the user');
     } finally {
@@ -75,7 +88,10 @@ const Search = () => {
           >
             <img src={user.avatar_url} alt={user.login} className="w-16 h-16 rounded-full" />
             <div>
-              <h3 className="font-semibold">{user.login}</h3>
+              <h3 className="font-semibold">{user.name || user.login}</h3>
+              <p className="text-sm text-gray-600">
+                📍 {user.location || 'Unknown'} | 📦 {user.public_repos ?? 'N/A'} repos
+              </p>
               <a
                 href={user.html_url}
                 target="_blank"
@@ -100,4 +116,5 @@ const Search = () => {
     </div>
   );
 };
+
 export default Search;
