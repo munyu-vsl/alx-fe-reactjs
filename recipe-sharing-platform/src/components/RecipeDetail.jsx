@@ -1,9 +1,16 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import data from '../data.json';
 
 export default function RecipeDetail() {
   const { id } = useParams();
-  const recipe = data.find((item) => item.id === parseInt(id));
+  const [recipe, setRecipe] = useState(null);
+
+  useEffect(() => {
+    // Simulate fetching recipe from data.json
+    const selectedRecipe = data.find((item) => item.id === parseInt(id));
+    setRecipe(selectedRecipe);
+  }, [id]);
 
   if (!recipe) {
     return (
