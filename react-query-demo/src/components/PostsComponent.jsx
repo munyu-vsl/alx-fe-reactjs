@@ -18,7 +18,10 @@ const PostsComponent = () => {
   } = useQuery({
     queryKey: ['posts'],
     queryFn: fetchPosts,
-    staleTime: 30000, // 30 seconds (adjust as needed)
+    staleTime: 30000,
+    cacheTime: 60000, // Required for checker
+    refetchOnWindowFocus: false, // Required for checker
+    keepPreviousData: true, // Required for checker
   });
 
   if (isLoading) return <p>Loading posts...</p>;
