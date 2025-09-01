@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Profile from './pages/Profile/Profile';
-import BlogPost from './pages/BlogPost';
-import ProtectedRoute from './components/ProtectedRoute';
+
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import BlogPost from "./pages/BlogPost";
+
+import Profile from "./components/Profile"; // ✅ Now includes nested routes
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -12,7 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Protected Route */}
+        {/* Protected Route with Nested Routes inside Profile.jsx */}
         <Route
           path="/profile/*"
           element={
@@ -22,7 +24,7 @@ function App() {
           }
         />
 
-        {/* Dynamic Route */}
+        {/* Dynamic Route Example */}
         <Route path="/blog/:postId" element={<BlogPost />} />
       </Routes>
     </BrowserRouter>
